@@ -7,12 +7,19 @@ public class RocketBaseClass : MonoBehaviour
 
   Rigidbody rocketRigidBody;
   Transform rocketTransformComponent;
+  AudioSource rocketAudioSource;
 
   // Start is called before the first frame update
   void Start()
   {
+    // Cache components
     rocketRigidBody = GetComponent<Rigidbody>();
     rocketTransformComponent = GetComponent<Transform>();
+    rocketAudioSource = GetComponent<AudioSource>();
+
+    // Set default values for AudioSource
+    rocketAudioSource.playOnAwake = false;
+    rocketAudioSource.loop = true;
   }
 
   // Update is called once per frame
@@ -29,6 +36,14 @@ public class RocketBaseClass : MonoBehaviour
     if (playerIsPressingSpace)
     {
       rocketRigidBody.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
+      if (!rocketAudioSource.isPlaying)
+      {
+        rocketAudioSource.Play();
+      }
+    }
+    else
+    {
+      rocketAudioSource.Stop();
     }
   }
 
