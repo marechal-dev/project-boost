@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+  - Powerup
+  - Game Over Text
+  - Game Over Canvas
   layers:
   - Default
   - TransparentFX
