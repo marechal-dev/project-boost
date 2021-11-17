@@ -1,23 +1,17 @@
 using UnityEngine;
 using TMPro;
 
-public class RocketCollision : MonoBehaviour
+public class RocketCollision : Rocket
 {
-    private GameObject textGameObject;
     private GameObject rocketGameObject;
     private TextMeshProUGUI text;
-    private RocketBaseClass rocket;
-
-    private void Awake()
-    {
-        textGameObject = GameObject.FindGameObjectWithTag("Game Over Text");
-        text = textGameObject.GetComponent<TextMeshProUGUI>();
-        rocketGameObject = GameObject.FindGameObjectWithTag("Player");
-    }
+    private Rocket rocket;
 
     private void Start()
     {
-        rocket = rocketGameObject.GetComponent<RocketBaseClass>();
+        rocket = rocketGameObject.GetComponent<Rocket>();
+        text = GameObject.FindGameObjectWithTag("Game Over Text").GetComponent<TextMeshProUGUI>();
+        rocketGameObject = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -27,21 +21,22 @@ public class RocketCollision : MonoBehaviour
             text.enabled = true;
         }
 
-        switch (collision.collider.tag)
+        if (collision.collider.tag == "Powerup")
         {
-            case "Powerup":
-                rocket.thrustForce += 50f;
-                text.text = "Powerup picked up! +50 thrust force!";
-                break;
-            case "Obstacle":
-                rocket.enabled = false;
-                text.text = "You died!";
-                break;
+            rocket.thrustForce += 50f;
+            text.text = "Powerup picked up! +50 thrust force!";
+        }
+        else if (collision.collider.tag == "Obstacle")
+        {
+            Debug.Log("Here");
+            rocket.isAlive = false;
+            rocket.enabled = false;
+            text.text = "You died!";
         }
 
-        if (Time.time > 2.5f)
-        {
-            text.enabled = false;
-        }
+        //if (Time.time > 2.5f)
+        //{
+        //    text.enabled = false;
+        //}
     }
 }

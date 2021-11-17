@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class RocketBaseClass : MonoBehaviour
+public class Rocket : Player
 {
     [SerializeField] public float thrustForce = 1000f;
     [SerializeField] private float rotationForce = 100f;
 
     Rigidbody rocketRigidBody;
     Transform rocketTransformComponent;
-    AudioSource rocketAudioSource;
+    public AudioSource rocketAudioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +27,18 @@ public class RocketBaseClass : MonoBehaviour
     {
         AdjustRotationSpeed();
         AdjustThrustForce();
+        Move();
+    }
+
+    public override void Move()
+    {
         HandleThrust();
         HandleRotation();
+
+        if (!isAlive)
+        {
+            rocketAudioSource.enabled = false;
+        }
     }
 
     private void HandleThrust()
